@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <servicing>
+        <package action="configure">
+            <assemblyIdentity name="Microsoft-Windows-ServerStandardEdition" version="6.3.9600.16384" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="" />
+            <selection name="Microsoft-Hyper-V-Common-Drivers-Package" state="true" />
+            <selection name="Microsoft-Hyper-V-Guest-Integration-Drivers-Package" state="true" />
+            <selection name="Microsoft-Hyper-V-Server-Drivers-Package" state="true" />
+            <selection name="Microsoft-Hyper-V-ServerEdition-Package" state="true" />
+        </package>
+        <package action="configure">
+            <assemblyIdentity name="Microsoft-Windows-ServerCore-Package" version="6.3.9600.16384" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="" />
+            <selection name="Microsoft-Hyper-V" state="true" />
+            <selection name="Microsoft-Hyper-V-Offline" state="true" />
+            <selection name="Microsoft-Hyper-V-Online" state="true" />
+            <selection name="VmHostAgent" state="true" />
+            <selection name="AdminUI" state="true" />
+            <selection name="ServerManager-Core-RSAT" state="true" />
+            <selection name="ServerManager-Core-RSAT-Feature-Tools" state="true" />
+            <selection name="ServerManager-Core-RSAT-Role-Tools" state="true" />
+        </package>
+    </servicing>
+    <settings pass="windowsPE">
+        <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <SetupUILanguage>
+                <UILanguage>en-US</UILanguage>
+            </SetupUILanguage>
+            <InputLocale>en-US</InputLocale>
+            <UILanguage>en-US</UILanguage>
+            <SystemLocale>en-US</SystemLocale>
+            <UserLocale>en-US</UserLocale>
+        </component>
+        <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <DiskConfiguration>
+                <Disk wcm:action="add">
+                    <CreatePartitions>
+                        <CreatePartition wcm:action="add">
+                            <Order>1</Order>
+                            <Size>350</Size>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Extend>true</Extend>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                    </CreatePartitions>
+                    <ModifyPartitions>
+                        <ModifyPartition wcm:action="add">
+                            <Active>true</Active>
+                            <Format>NTFS</Format>
+                            <Label>Bitlocker</Label>
+                            <Order>1</Order>
+                            <PartitionID>1</PartitionID>
+                        </ModifyPartition>
+                        <ModifyPartition wcm:action="add">
+                            <Letter>C</Letter>
+                            <Label>HostOS</Label>
+                            <Order>2</Order>
+                            <PartitionID>2</PartitionID>
+                        </ModifyPartition>
+                    </ModifyPartitions>
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+                </Disk>
+            </DiskConfiguration>
+            <ImageInstall>
+                <OSImage>
+                    <InstallFrom>
+                        <MetaData wcm:action="add">
+                            <Key>/Image/Name</Key>
+                            <Value>Windows Server 2012 R2 SERVERSTANDARD</Value>
+                        </MetaData>
+                    </InstallFrom>
+                    <InstallTo>
+                        <DiskID>0</DiskID>
+                        <PartitionID>2</PartitionID>
+                    </InstallTo>
+                </OSImage>
+            </ImageInstall>
+            <UserData>
+                <ProductKey>
+                    <WillShowUI>OnError</WillShowUI>
+                </ProductKey>
+                <AcceptEula>true</AcceptEula>
+                <FullName>YourName</FullName>
+                <Organization>YourOrg</Organization>
+            </UserData>
+        </component>
+    </settings>
+    <settings pass="specialize">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <TimeZone>W. Europe Standard Time</TimeZone>
+            <ComputerName>Hyper-V01</ComputerName>
+        </component>
+        <component name="Microsoft-Windows-TerminalServices-LocalSessionManager" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <fDenyTSConnections>false</fDenyTSConnections>
+        </component>
+        <component name="Microsoft-Windows-UnattendedJoin" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Identification>
+                <Credentials>
+                    <Domain>Elanity.local</Domain>
+                    <Password>Hannover96</Password>
+                    <Username>joindomain</Username>
+                </Credentials>
+                <JoinDomain>Elanity.de</JoinDomain>
+                <MachineObjectOU>OU=Hyper-V,DC=Elanity,DC=local</MachineObjectOU>
+            </Identification>
+        </component>
+        <component name="Microsoft-Windows-TCPIP" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Interfaces>
+                <Interface wcm:action="add">
+                    <Ipv4Settings>
+                        <DhcpEnabled>false</DhcpEnabled>
+                        <Metric>10</Metric>
+                        <RouterDiscoveryEnabled>true</RouterDiscoveryEnabled>
+                    </Ipv4Settings>
+                    <UnicastIpAddresses>
+                        <IpAddress wcm:action="add" wcm:keyValue="1">192.168.1.41/24</IpAddress>
+                    </UnicastIpAddresses>
+                    <Identifier>Local Area Connection</Identifier>
+                </Interface>
+            </Interfaces>
+        </component>
+    </settings>
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <UserAccounts>
+                <AdministratorPassword>
+                    <Value>UABAAHMAcwB3ADAAcgBkAEEAZABtAGkAbgBpAHMAdAByAGEAdABvAHIAUABhAHMAcwB3AG8AcgBkAA==</Value>
+                    <PlainText>false</PlainText>
+                </AdministratorPassword>
+            </UserAccounts>
+        </component>
+    </settings>
+    <cpi:offlineImage cpi:source="wim:d:/temp/install.wim#Windows Server 2012 R2 SERVERSTANDARD" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+</unattend>
